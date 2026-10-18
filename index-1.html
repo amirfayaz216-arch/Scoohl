@@ -173,7 +173,7 @@ button,.btn,input,select,textarea{font-size:15px;font-weight:500}b{font-weight:7
 const $=s=>document.querySelector(s),E=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const chkAdmin=p=>['mostafaghazizadeh','mostafaqazizadeh'].includes(String(p).toLowerCase().replace(/[\s_\-.]/g,''));let db=null,sample=null,me=null,users=[],news=[],view='home',sel={},tab='student',err='';
 const LS={g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-me=null;users=LS.g('users')||[];news=LS.g('news')||[];
+me=LS.g('me')||null;users=LS.g('users')||[];news=LS.g('news')||[];
 const BOOKS={
 'پایه اول':{'ریاضی':{'فصل ۱: شمارش و عددهای ۰ تا ۹':['با شمردن اشیا، عددها را یاد می‌گیریم: یک، دو، سه...','هر عدد را باید درست بنویسیم و بشناسیم.'],'فصل ۲: جمع و تفریق':['جمع یعنی روی هم گذاشتن و زیاد کردن.','تفریق یعنی کم کردن و برداشتن.']},'فارسی (بخوانیم)':{'درس‌های آغازین':['با دیدن تصویر و شنیدن صدا، حرف‌ها را می‌شناسیم.','حرف‌ها را کنار هم می‌گذاریم و کلمه می‌سازیم، مثل «بابا» و «آب».']}},
 'پایه دوم':{'ریاضی':{'فصل ۱: عددهای دو رقمی':['عدد دو رقمی دارای یکان و دهگان است.','در عدد ۴۵، رقم ۴ دهگان و رقم ۵ یکان است.'],'فصل ۲: جمع و تفریق':['برای جمع دو عدد، اول یکان‌ها و بعد دهگان‌ها را جمع می‌کنیم.','تفریق، عکس جمع است.']},'فارسی (بخوانیم)':{'خواندن و نوشتن':['جمله از چند کلمه ساخته می‌شود و با نقطه تمام می‌شود.','کلمه‌های هم‌خانواده را پیدا می‌کنیم.']}},
