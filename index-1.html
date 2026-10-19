@@ -189,7 +189,41 @@ const OLD={
 'پایه نهم':{'ریاضی':{'فصل ۱: مجموعه‌ها':['مجموعه گردایهٔ مشخصی از اشیاست.','اجتماع و اشتراک دو عمل اصلی روی مجموعه‌هاست.'],'فصل ۲: عددهای حقیقی':['عددهای گویا و گنگ با هم عددهای حقیقی را می‌سازند.','جذر عدد نامنفی عددی است که مربعش همان عدد شود.']},
 'علوم':{'فصل ۱: حرکت':['سرعت = مسافت ÷ زمان.','شتاب تغییر سرعت در واحد زمان است.'],'فصل ۲: نیرو':['نیرو عامل تغییر حالت حرکت است.','قانون دوم نیوتون: F = m·a']}}};
 async function boot(){
- try{const c=window.claude;if(c){db=await c.use('db');sample=await c.use('sample')}}catch(e){}
+try {
+  const c = window.claude;
+  if (c) {
+    db = await c.use('db');
+  }
+} catch (e) {}
+
+sample = async function(prompt, opts = {}) {
+  const response = await fetch(
+    'https://school-ai-assistant.amirfayaz216.workers.dev/ask',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: prompt })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'خطا در اتصال به هوشا');
+  }
+
+  const answer = data.response || data.text || data.answer;
+
+  if (!answer) {
+    throw new Error('پاسخی دریافت نشد');
+  }
+
+  if (opts.onText) {
+    opts.onText({ text: answer });
+  }
+
+  return { text: answer };
+};
  if(db){db.collection('users').onSnapshot(s=>{users=s.docs.map(d=>({id:d.id,...d.data()}));LS.s('users',users);if(me&&me.role!='admin'){const m=users.find(u=>u.id==me.id);if(m){me=m;LS.s('me',me)}}render(1)});
   Object.keys(COL).forEach(syncCol);
   db.collection('imgs').onSnapshot(s=>{imgs=s.docs.map(d=>({id:d.id,...d.data()}));if($('#gal'))$('#gal').innerHTML=gal();deEmoji(document.body)});
